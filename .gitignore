@@ -13,8 +13,9 @@ dist/
 build/
 .eggs/
 
-# ── API keys — NEVER commit this file ─────────────────────
+# ── API keys — NEVER commit these files ───────────────────
 config.js
+check_api.py
 
 # ── ML / data artifacts ───────────────────────────────────
 *.h5

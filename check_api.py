@@ -1,11 +1,12 @@
 import urllib.request
 import json
-import sys
+import os
 
 url = "https://api.openai.com/v1/chat/completions"
+openai_key = os.environ.get("OPENAI_API_KEY", "")
 headers = {
     "Content-Type": "application/json",
-    "Authorization": "Bearer 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"
+    "Authorization": f"Bearer {openai_key}"
 }
 data = {
     "model": "gpt-4o-mini",
