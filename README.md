@@ -5,7 +5,7 @@ CryptoMarket is a modern, responsive web-based cryptocurrency dashboard that pro
 ---
 
 ## 🌐 Live Demo
-👉 https://your-live-link.com
+👉 [LIVE LINK](https://utkarsh1454.github.io/-CryptoMarket-Live-Crypto-Analytics-Platform/index.html)
 
 ---
 
