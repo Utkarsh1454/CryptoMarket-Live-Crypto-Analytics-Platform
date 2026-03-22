@@ -15,7 +15,6 @@ build/
 
 # ── API keys — NEVER commit these files ───────────────────
 config.js
-check_api.py
 
 # ── ML / data artifacts ───────────────────────────────────
 *.h5
