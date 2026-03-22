@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoMarket | Live Crypto Prices & Market Data</title>
+    <meta name="description" content="Track live cryptocurrency prices, market caps, charts and more. Powered by Coinpaprika.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- ══════════ NAV ══════════ -->
+    <nav class="navbar">
+        <div class="nav-inner">
+            <a class="nav-brand" href="index.html">
+                <div class="nav-logo"><i class="fa-solid fa-chart-line"></i></div>
+                <span>Crypto<strong>Market</strong></span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link active">Markets</a>
+                <a href="trending.html" class="nav-link">Trending</a>
+                <a href="news.html" class="nav-link">News</a>
+            </div>
+            <div class="nav-right">
+                <select id="currency-select" class="currency-select" onchange="changeCurrency(this.value)">
+                    <option value="usd">$ USD</option>
+                    <option value="eur">€ EUR</option>
+                    <option value="gbp">£ GBP</option>
+                    <option value="inr">₹ INR</option>
+                    <option value="jpy">¥ JPY</option>
+                    <option value="cad">C$ CAD</option>
+                    <option value="aud">A$ AUD</option>
+                    <option value="cny">¥ CNY</option>
+                    <option value="btc">₿ BTC</option>
+                    <option value="eth">Ξ ETH</option>
+                </select>
+                <div class="nav-search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="global-search" placeholder="Search coins...">
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ══════════ GLOBAL TICKER BAR ══════════ -->
+    <div class="ticker-bar">
+        <div class="ticker-inner" id="ticker-bar-content">
+            <span class="ticker-label">Markets:</span>
+            <span class="ticker-stat" id="tb-coins">-- Coins</span>
+            <span class="ticker-divider">·</span>
+            <span class="ticker-stat">Market Cap: <span id="tb-mcap" class="ticker-val">--</span></span>
+            <span class="ticker-divider">·</span>
+            <span class="ticker-stat">24h Vol: <span id="tb-vol" class="ticker-val">--</span></span>
+            <span class="ticker-divider">·</span>
+            <span class="ticker-stat">BTC Dom: <span id="tb-btc" class="ticker-val">--</span></span>
+            <span class="ticker-divider">·</span>
+            <span class="ticker-stat">ETH Dom: <span id="tb-eth" class="ticker-val">--</span></span>
+        </div>
+    </div>
+
+    <!-- ══════════ HERO ══════════ -->
+    <section class="hero-section">
+        <div class="hero-inner">
+            <h1 class="hero-title">Crypto <span class="grad-text">Market</span> Overview</h1>
+            <p class="hero-sub">Live prices, charts and data for <span id="hero-coin-count">thousands</span> of cryptocurrencies — powered by CoinGecko</p>
+
+            <!-- Global Stats Cards -->
+            <div class="global-stats-row" id="global-stats-row">
+                <div class="gstat-card">
+                    <div class="gstat-icon blue-icon"><i class="fa-solid fa-globe"></i></div>
+                    <div>
+                        <p class="gstat-label">Total Market Cap</p>
+                        <h3 class="gstat-val" id="gs-mcap">--</h3>
+                    </div>
+                </div>
+                <div class="gstat-card">
+                    <div class="gstat-icon purple-icon"><i class="fa-solid fa-rotate"></i></div>
+                    <div>
+                        <p class="gstat-label">24h Volume</p>
+                        <h3 class="gstat-val" id="gs-vol">--</h3>
+                    </div>
+                </div>
+                <div class="gstat-card">
+                    <div class="gstat-icon cyan-icon"><i class="fa-brands fa-bitcoin"></i></div>
+                    <div>
+                        <p class="gstat-label">BTC Dominance</p>
+                        <h3 class="gstat-val" id="gs-btc">--</h3>
+                    </div>
+                </div>
+                <div class="gstat-card">
+                    <div class="gstat-icon green-icon"><i class="fa-solid fa-coins"></i></div>
+                    <div>
+                        <p class="gstat-label">Active Coins</p>
+                        <h3 class="gstat-val" id="gs-coins">--</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════ MARKETS TABLE ══════════ -->
+    <section class="markets-section">
+        <div class="section-inner">
+
+            <!-- Controls -->
+            <div class="table-controls">
+                <div class="table-filters">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="top">Top 100</button>
+                    <button class="filter-btn" data-filter="gainers">🚀 Gainers</button>
+                    <button class="filter-btn" data-filter="losers">📉 Losers</button>
+                </div>
+                <div class="table-search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="table-search" placeholder="Filter table...">
+                </div>
+            </div>
+
+            <!-- Coin Table -->
+            <div class="market-table-wrap">
+                <table class="market-table" id="market-table">
+                    <thead>
+                        <tr>
+                            <th class="th-rank" data-sort="rank"># <i class="fa-solid fa-sort sort-icon"></i></th>
+                            <th class="th-name">Name</th>
+                            <th data-sort="price">Price <i class="fa-solid fa-sort sort-icon"></i></th>
+                            <th data-sort="change_1h">1h % <i class="fa-solid fa-sort sort-icon"></i></th>
+                            <th data-sort="change_24h">24h % <i class="fa-solid fa-sort sort-icon"></i></th>
+                            <th data-sort="change_7d">7d % <i class="fa-solid fa-sort sort-icon"></i></th>
+                            <th data-sort="market_cap">Market Cap <i class="fa-solid fa-sort sort-icon"></i></th>
+                            <th data-sort="volume">Volume (24h) <i class="fa-solid fa-sort sort-icon"></i></th>
+                            <th>7d Trend</th>
+                        </tr>
+                    </thead>
+                    <tbody id="market-tbody">
+                        <tr><td colspan="9" class="table-loading">
+                            <div class="loading-pulse"><div class="pulse-dot"></div> Fetching live market data...</div>
+                        </td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="load-more-wrap">
+                <button class="load-more-btn" id="load-more-btn">Load More Coins</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ══════════ FOOTER ══════════ -->
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <div class="nav-logo sm"><i class="fa-solid fa-chart-line"></i></div>
+                <span>CryptoMarket</span>
+            </div>
+            <p class="footer-credit">Market data by <a href="https://coingecko.com" target="_blank">CoinGecko</a> · Free public API</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="currency.js"></script>
+    <script src="search.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
