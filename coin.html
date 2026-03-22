@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coin Detail | CryptoMarket</title>
+    <meta name="description" content="Detailed cryptocurrency market data, charts, and statistics.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <!-- NAV (shared) -->
+    <nav class="navbar">
+        <div class="nav-inner">
+            <a class="nav-brand" href="index.html">
+                <div class="nav-logo"><i class="fa-solid fa-chart-line"></i></div>
+                <span>Crypto<strong>Market</strong></span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">Markets</a>
+                <a href="trending.html" class="nav-link">Trending</a>
+                <a href="news.html" class="nav-link">News</a>
+            </div>
+            <div class="nav-right">
+                <select id="currency-select" class="currency-select" onchange="changeCurrency(this.value)">
+                    <option value="usd">$ USD</option>
+                    <option value="eur">€ EUR</option>
+                    <option value="gbp">£ GBP</option>
+                    <option value="inr">₹ INR</option>
+                    <option value="jpy">¥ JPY</option>
+                    <option value="cad">C$ CAD</option>
+                    <option value="aud">A$ AUD</option>
+                    <option value="cny">¥ CNY</option>
+                    <option value="btc">₿ BTC</option>
+                    <option value="eth">Ξ ETH</option>
+                </select>
+                <div class="nav-search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="global-search" placeholder="Search coins...">
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- BREADCRUMB -->
+    <div class="breadcrumb-bar">
+        <div class="breadcrumb-inner">
+            <a href="index.html"><i class="fa-solid fa-house"></i> Markets</a>
+            <i class="fa-solid fa-chevron-right sep"></i>
+            <span id="bc-name">Loading...</span>
+        </div>
+    </div>
+
+    <!-- ════════ COIN HEADER ════════ -->
+    <section class="coin-hero">
+        <div class="coin-hero-inner">
+
+            <div class="coin-hero-left">
+                <div class="coin-id-row">
+                    <div class="coin-logo-circle" id="coin-logo">?</div>
+                    <div>
+                        <div class="coin-name-row">
+                            <h1 id="coin-name">--</h1>
+                            <span class="coin-symbol-badge" id="coin-symbol">--</span>
+                            <span class="coin-rank-badge" id="coin-rank">#--</span>
+                        </div>
+                        <div class="coin-tags" id="coin-tags"></div>
+                    </div>
+                </div>
+
+                <div class="price-hero-row">
+                    <div class="price-hero" id="price-hero">--</div>
+                    <div class="price-changes">
+                        <span class="pct-badge" id="pct-1h">--</span>
+                        <span class="pct-label">1h</span>
+                        <span class="pct-badge" id="pct-24h">--</span>
+                        <span class="pct-label">24h</span>
+                        <span class="pct-badge" id="pct-7d">--</span>
+                        <span class="pct-label">7d</span>
+                        <span class="pct-badge" id="pct-30d">--</span>
+                        <span class="pct-label">30d</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="coin-hero-right">
+                <div class="key-stats-grid">
+                    <div class="key-stat"><p>Market Cap</p><h4 id="ks-mcap">--</h4></div>
+                    <div class="key-stat"><p>Fully Diluted Val.</p><h4 id="ks-fdv">--</h4></div>
+                    <div class="key-stat"><p>24h Volume</p><h4 id="ks-vol">--</h4></div>
+                    <div class="key-stat"><p>Vol / Mkt Cap</p><h4 id="ks-volratio">--</h4></div>
+                    <div class="key-stat"><p>Circulating Supply</p><h4 id="ks-csup">--</h4></div>
+                    <div class="key-stat"><p>Max Supply</p><h4 id="ks-msup">--</h4></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ════════ MAIN CONTENT ════════ -->
+    <div class="detail-grid">
+
+        <!-- LEFT: Chart + Details -->
+        <div class="detail-main">
+
+            <!-- Chart Card -->
+            <div class="detail-card chart-detail-card">
+                <div class="chart-toolbar">
+                    <div class="chart-range-tabs">
+                        <button class="range-btn" data-days="1">1D</button>
+                        <button class="range-btn active" data-days="7">7D</button>
+                        <button class="range-btn" data-days="30">1M</button>
+                        <button class="range-btn" data-days="90">3M</button>
+                        <button class="range-btn" data-days="365">1Y</button>
+                    </div>
+                    <div class="chart-legend">
+                        <span class="cl-item"><span class="cl-dot blue"></span> Price</span>
+                        <span class="cl-item"><span class="cl-dot purple"></span> SMA (7)</span>
+                    </div>
+                </div>
+                <div class="chart-detail-wrap">
+                    <canvas id="priceChart"></canvas>
+                    <div id="chart-overlay" class="chart-overlay">
+                        <div class="loader-ring"></div>
+                        <p>Loading price history...</p>
+                    </div>
+                </div>
+
+                <!-- OHLCV mini stats below chart -->
+                <div class="ohlcv-row">
+                    <div class="ohlcv-item"><span>Open</span><strong id="ohlcv-open">--</strong></div>
+                    <div class="ohlcv-item"><span>High</span><strong id="ohlcv-high" class="text-green">--</strong></div>
+                    <div class="ohlcv-item"><span>Low</span><strong id="ohlcv-low" class="text-red">--</strong></div>
+                    <div class="ohlcv-item"><span>Close</span><strong id="ohlcv-close">--</strong></div>
+                    <div class="ohlcv-item"><span>Volume</span><strong id="ohlcv-volume">--</strong></div>
+                </div>
+            </div>
+
+            <!-- Description Card -->
+            <div class="detail-card">
+                <h3 class="detail-card-title">About <span id="about-coin-name">--</span></h3>
+                <p class="coin-description" id="coin-description">Loading coin information...</p>
+                <div class="coin-links" id="coin-links"></div>
+            </div>
+
+            <!-- Markets / Exchanges Table -->
+            <div class="detail-card">
+                <h3 class="detail-card-title">Markets</h3>
+                <table class="inner-table" id="markets-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Exchange</th>
+                            <th>Pair</th>
+                            <th>Price</th>
+                            <th>Volume (24h)</th>
+                            <th>Volume %</th>
+                            <th>Trust</th>
+                        </tr>
+                    </thead>
+                    <tbody id="markets-tbody">
+                        <tr><td colspan="7" class="table-loading">Loading markets...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- RIGHT SIDEBAR -->
+        <aside class="detail-sidebar">
+
+            <!-- Converter Card -->
+            <div class="detail-card">
+                <h3 class="detail-card-title">Converter</h3>
+                <div class="converter-row">
+                    <input type="number" id="conv-coin" class="conv-input" placeholder="1" value="1">
+                    <span class="conv-label" id="conv-coin-label">BTC</span>
+                </div>
+                <div class="conv-equals"><i class="fa-solid fa-right-left"></i></div>
+                <div class="converter-row">
+                    <input type="text" id="conv-usd" class="conv-input" placeholder="--" readonly>
+                    <span class="conv-label" id="conv-currency-label">USD</span>
+                </div>
+            </div>
+
+            <!-- All-Time Highs/Lows -->
+            <div class="detail-card">
+                <h3 class="detail-card-title">Price History</h3>
+                <div class="ath-list">
+                    <div class="ath-item">
+                        <div>
+                            <p class="ath-label">All-Time High</p>
+                            <p class="ath-date" id="ath-date">--</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="ath-price text-green" id="ath-price">--</p>
+                            <p class="ath-pct" id="ath-pct">--</p>
+                        </div>
+                    </div>
+                    <div class="ath-item">
+                        <div>
+                            <p class="ath-label">All-Time Low</p>
+                            <p class="ath-date" id="atl-date">--</p>
+                        </div>
+                        <div class="text-right">
+                            <p class="ath-price text-red" id="atl-price">--</p>
+                            <p class="ath-pct" id="atl-pct">--</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Supply Info -->
+            <div class="detail-card">
+                <h3 class="detail-card-title">Supply</h3>
+                <div class="supply-bar-wrap">
+                    <div class="supply-labels">
+                        <span>Circulating</span>
+                        <span id="sup-circ-pct">--%</span>
+                    </div>
+                    <div class="supply-bar"><div class="supply-fill" id="sup-fill" style="width:0%"></div></div>
+                    <div class="supply-detail">
+                        <div class="supply-row"><span>Circulating</span><strong id="sup-circ">--</strong></div>
+                        <div class="supply-row"><span>Total</span><strong id="sup-total">--</strong></div>
+                        <div class="supply-row"><span>Max</span><strong id="sup-max">--</strong></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Social Links -->
+            <div class="detail-card">
+                <h3 class="detail-card-title">Links</h3>
+                <div class="social-links" id="social-links">
+                    <p class="text-muted">Loading...</p>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <div class="footer-brand">
+                <div class="nav-logo sm"><i class="fa-solid fa-chart-line"></i></div>
+                <span>CryptoMarket</span>
+            </div>
+            <p class="footer-credit">Market data by <a href="https://coingecko.com" target="_blank">CoinGecko</a></p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="currency.js"></script>
+    <script src="search.js"></script>
+    <script src="coin.js"></script>
+</body>
+</html>
