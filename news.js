@@ -5,7 +5,10 @@
  * Quick Prices: Coinpaprika /v1/tickers
  */
 
-const CC_KEY    = '3924ec0a0b886688d084cbcf204b3b481dec514ce79c4a134bad5f299d03a955';
+// API keys are loaded from config.js (gitignored) via window.APP_CONFIG
+// See config.example.js for the required format.
+const CC_KEY    = (window.APP_CONFIG?.CC_KEY) || '';
+if (!CC_KEY) console.warn('[news.js] No CryptoCompare API key found. Copy config.example.js → config.js and add your key.');
 const CC_BASE   = `https://min-api.cryptocompare.com/data/v2/news/?lang=EN&api_key=${CC_KEY}`;
 const GECKO     = 'https://api.coingecko.com/api/v3';
 const GECKO_IDS = 'bitcoin,ethereum,binancecoin,solana,ripple';

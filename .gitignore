@@ -1,0 +1,38 @@
+# ── Dependencies ──────────────────────────────────────────
+node_modules/
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+env/
+
+# ── Python build/cache ────────────────────────────────────
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# ── API keys — NEVER commit this file ─────────────────────
+config.js
+
+# ── ML / data artifacts ───────────────────────────────────
+*.h5
+*.keras
+*.pkl
+*.model
+*.csv
+*.parquet
+
+# ── IDE ───────────────────────────────────────────────────
+.vscode/
+.idea/
+*.code-workspace
+
+# ── OS ────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Logs ─────────────────────────────────────────────────
+*.log
